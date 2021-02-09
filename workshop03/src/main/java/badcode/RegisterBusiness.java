@@ -3,17 +3,21 @@ package badcode;
 import java.util.Arrays;
 
 public class RegisterBusiness {
+	
+    final String FIRST_NAME_CAPTION = "First name";
+    final String LAST_NAME_CAPTION = "Last name";
+    final String EMAIL_CAPTION = "Email";
 
     public Integer register(SpeakerRepository repository, Speaker speaker) {
         Integer speakerId;
         String[] domains = {"gmail.com", "live.com"};
 
-        checkRequireField(speaker.getFirstName(), "First name");
-        checkRequireField(speaker.getLastName(), "Last name");
-        checkRequireField(speaker.getEmail(), "Email");
+        checkRequireField(speaker.getFirstName(), FIRST_NAME_CAPTION);
+		checkRequireField(speaker.getLastName(), LAST_NAME_CAPTION);
+		checkRequireField(speaker.getEmail(), EMAIL_CAPTION);
         
         // Tasks
-        String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
+        String emailDomain = getEmailDomain(speaker.getEmail());
         if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
             int exp = speaker.getExp();
             speaker.setRegistrationFee(getFee(exp));
