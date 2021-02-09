@@ -2,6 +2,7 @@ package workshop02;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class DiscountCalculator {
@@ -9,15 +10,15 @@ public class DiscountCalculator {
     public static int get(Basket basket) {
     	int discount = 0;
     	
-    	List<Book> books = basket.getBooks();
+    	Map<String, BookOrder> bookOrdersMapByBookName = basket.getBookOrdersMapByBookName();
     	Set<String> uniqueBookNames = new HashSet<String>();
-    	for (Book book : books) {
-			String bookName = book.getName();
-			uniqueBookNames.add(bookName);
-		}
+        for (Map.Entry<String, BookOrder> entry : bookOrdersMapByBookName.entrySet()) {
+    		String bookName = entry.getKey();
+    		uniqueBookNames.add(bookName);
+    	}
     	int uniqueBookNameCount = uniqueBookNames.size();
     	
-    	BookPromotionBuilder bookPromotion = new BookPromotionBuilder().build();
+    	BookPromotion bookPromotion = new BookPromotion();
     	List<Promotion> promotions = bookPromotion.getPromotions();
     	int discountPercent = 0;
     	for (Promotion promotion : promotions) {

@@ -1,15 +1,22 @@
 package workshop02;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Basket {
-    private List<Book> books = new ArrayList<Book>();
+    private Map<String, BookOrder> bookOrdersMapByBookName = new HashMap<String, BookOrder>();
     private int netPrice;
     private int discount;
 
     public void addBook(Book book) {
-        getBooks().add(book);
+        String bookName = book.getName();
+        if (bookOrdersMapByBookName.containsKey(bookName)) {
+        	BookOrder bookOrder = bookOrdersMapByBookName.get(bookName);
+            bookOrder.addQuantity();
+        } else {
+        	BookOrder bookOrder = new BookOrder(book);
+        	bookOrdersMapByBookName.put(bookName, bookOrder);
+        }
     }
 
     public int getNetPrice() {
@@ -32,11 +39,11 @@ public class Basket {
     	return this.netPrice - this.discount;
     }
 
-	public List<Book> getBooks() {
-		return books;
+	public Map<String, BookOrder> getBookOrdersMapByBookName() {
+		return bookOrdersMapByBookName;
 	}
 
-	public void setBooks(List<Book> books) {
-		this.books = books;
+	public void setBookOrdersMapByBookName(Map<String, BookOrder> bookOrdersMapByBookName) {
+		this.bookOrdersMapByBookName = bookOrdersMapByBookName;
 	}
 }
