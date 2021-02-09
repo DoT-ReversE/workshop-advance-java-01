@@ -8,9 +8,9 @@ public class RegisterBusiness {
         Integer speakerId;
         String[] domains = {"gmail.com", "live.com"};
 
-        if (speaker.getFirstName() != null && !speaker.getFirstName().trim().equals("")) {
-            if (speaker.getLastName() != null && !speaker.getLastName().trim().equals("")) {
-                if (speaker.getEmail() != null && !speaker.getEmail().trim().equals("")) {
+        if (hasValue(speaker.getFirstName())) {
+            if (hasValue(speaker.getLastName())) {
+                if (hasValue(speaker.getEmail())) {
                     // Tasks
                     String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
                     if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
@@ -55,6 +55,11 @@ public class RegisterBusiness {
         String[] inputs = email.trim().split("@");
         if(inputs.length == 2) return inputs[1];
         throw new DomainEmailInvalidException();
+    }
+    
+    private boolean hasValue(String value) {
+    	boolean hasValue = value != null && !value.isBlank();
+    	return hasValue;
     }
 
 }
