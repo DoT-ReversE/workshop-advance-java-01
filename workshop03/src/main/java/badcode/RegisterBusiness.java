@@ -8,30 +8,22 @@ public class RegisterBusiness {
         Integer speakerId;
         String[] domains = {"gmail.com", "live.com"};
 
-        if (hasValue(speaker.getFirstName())) {
-            if (hasValue(speaker.getLastName())) {
-                if (hasValue(speaker.getEmail())) {
-                    // Tasks
-                    String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
-                    if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
-                        int exp = speaker.getExp();
-                        speaker.setRegistrationFee(getFee(exp));
-                        try {
-                            speakerId = repository.saveSpeaker(speaker);
-                        }catch (Exception exception) {
-                            throw new SaveSpeakerException("Can't save a speaker.");
-                        }
-                    } else {
-                        throw new SpeakerDoesntMeetRequirementsException("Speaker doesn't meet our standard rules.");
-                    }
-                } else {
-                    throw new ArgumentNullException("Email is required.");
-                }
-            }else {
-                throw new ArgumentNullException("Last name is required.");
+        checkRequireField(speaker.getFirstName(), "First name");
+        checkRequireField(speaker.getLastName(), "Last name");
+        checkRequireField(speaker.getEmail(), "Email");
+        
+        // Tasks
+        String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
+        if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
+            int exp = speaker.getExp();
+            speaker.setRegistrationFee(getFee(exp));
+            try {
+                speakerId = repository.saveSpeaker(speaker);
+            }catch (Exception exception) {
+                throw new SaveSpeakerException("Can't save a speaker.");
             }
         } else {
-            throw new ArgumentNullException("First name is required.");
+            throw new SpeakerDoesntMeetRequirementsException("Speaker doesn't meet our standard rules.");
         }
 
         return speakerId;
@@ -57,8 +49,14 @@ public class RegisterBusiness {
         throw new DomainEmailInvalidException();
     }
     
+    private void checkRequireField(String fieldValue, String fieldCaption) {
+    	if (!hasValue(fieldValue)) {
+    		throw new ArgumentNullException(fieldCaption + " is required.");
+    	}
+    }
+    
     private boolean hasValue(String value) {
-    	boolean hasValue = value != null && !value.isBlank();
+    	boolean hasValue = value != null && !value.isEmpty();
     	return hasValue;
     }
 
