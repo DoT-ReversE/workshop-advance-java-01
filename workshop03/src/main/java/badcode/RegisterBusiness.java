@@ -3,24 +3,12 @@ package badcode;
 import java.util.Arrays;
 
 public class RegisterBusiness {
-	
-    final String FIRST_NAME_CAPTION = "First name";
-    final String LAST_NAME_CAPTION = "Last name";
-    final String EMAIL_CAPTION = "Email";
     final String[] VALID_DOMAIN = {"gmail.com", "live.com"};
 
     public Integer register(SpeakerRepository repository, Speaker speaker) {
         Integer speakerId;
 
-        String speakerFirstName = speaker.getFirstName();
-        String speakerLastName = speaker.getLastName();
-        String speakerEmail = speaker.getEmail();
-
-        checkRequireField(speakerFirstName, FIRST_NAME_CAPTION);
-		checkRequireField(speakerLastName, LAST_NAME_CAPTION);
-		checkRequireField(speakerEmail, EMAIL_CAPTION);
-
-		checkValidEmail(speakerEmail);
+        validateRegisterData(speaker);
 		
         int speakerExp = speaker.getExp();
         int registrationFee = getFee(speakerExp);
@@ -34,6 +22,18 @@ public class RegisterBusiness {
 
         return speakerId;
     }
+
+	private void validateRegisterData(Speaker speaker) {
+		String speakerFirstName = speaker.getFirstName();
+        String speakerLastName = speaker.getLastName();
+        String speakerEmail = speaker.getEmail();
+        
+        checkRequireField(speakerFirstName, Speaker.FIRST_NAME_CAPTION);
+		checkRequireField(speakerLastName, Speaker.LAST_NAME_CAPTION);
+		checkRequireField(speakerEmail, Speaker.EMAIL_CAPTION);
+
+		checkValidEmail(speakerEmail);
+	}
 
 	private void checkValidEmail(String email) {
 		String emailDomain = getEmailDomain(email);

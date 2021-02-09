@@ -3,6 +3,10 @@ package badcode;
 import java.util.List;
 
 public class Speaker {
+    public static final String FIRST_NAME_CAPTION = "First name";
+    public static final String LAST_NAME_CAPTION = "Last name";
+    public static final String EMAIL_CAPTION = "Email";
+    
     private String firstName;
     private String lastName;
     private String email;
