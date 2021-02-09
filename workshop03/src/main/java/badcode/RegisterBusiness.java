@@ -11,16 +11,21 @@ public class RegisterBusiness {
 
     public Integer register(SpeakerRepository repository, Speaker speaker) {
         Integer speakerId;
-       
 
-        checkRequireField(speaker.getFirstName(), FIRST_NAME_CAPTION);
-		checkRequireField(speaker.getLastName(), LAST_NAME_CAPTION);
-		checkRequireField(speaker.getEmail(), EMAIL_CAPTION);
-        
-        checkValidEmail(speaker.getEmail());
+        String speakerFirstName = speaker.getFirstName();
+        String speakerLastName = speaker.getLastName();
+        String speakerEmail = speaker.getEmail();
+
+        checkRequireField(speakerFirstName, FIRST_NAME_CAPTION);
+		checkRequireField(speakerLastName, LAST_NAME_CAPTION);
+		checkRequireField(speakerEmail, EMAIL_CAPTION);
+
+		checkValidEmail(speakerEmail);
 		
-        int exp = speaker.getExp();
-        speaker.setRegistrationFee(getFee(exp));
+        int speakerExp = speaker.getExp();
+        int registrationFee = getFee(speakerExp);
+		speaker.setRegistrationFee(registrationFee);
+        
         try {
             speakerId = repository.saveSpeaker(speaker);
         }catch (Exception exception) {
