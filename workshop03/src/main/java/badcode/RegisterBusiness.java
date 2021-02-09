@@ -7,31 +7,36 @@ public class RegisterBusiness {
     final String FIRST_NAME_CAPTION = "First name";
     final String LAST_NAME_CAPTION = "Last name";
     final String EMAIL_CAPTION = "Email";
+    final String[] VALID_DOMAIN = {"gmail.com", "live.com"};
 
     public Integer register(SpeakerRepository repository, Speaker speaker) {
         Integer speakerId;
-        String[] domains = {"gmail.com", "live.com"};
+       
 
         checkRequireField(speaker.getFirstName(), FIRST_NAME_CAPTION);
 		checkRequireField(speaker.getLastName(), LAST_NAME_CAPTION);
 		checkRequireField(speaker.getEmail(), EMAIL_CAPTION);
         
-        // Tasks
-        String emailDomain = getEmailDomain(speaker.getEmail());
-        if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
-            int exp = speaker.getExp();
-            speaker.setRegistrationFee(getFee(exp));
-            try {
-                speakerId = repository.saveSpeaker(speaker);
-            }catch (Exception exception) {
-                throw new SaveSpeakerException("Can't save a speaker.");
-            }
-        } else {
-            throw new SpeakerDoesntMeetRequirementsException("Speaker doesn't meet our standard rules.");
+        checkValidEmail(speaker.getEmail());
+		
+        int exp = speaker.getExp();
+        speaker.setRegistrationFee(getFee(exp));
+        try {
+            speakerId = repository.saveSpeaker(speaker);
+        }catch (Exception exception) {
+            throw new SaveSpeakerException("Can't save a speaker.");
         }
 
         return speakerId;
     }
+
+	private void checkValidEmail(String email) {
+		String emailDomain = getEmailDomain(email);
+        final boolean isValidDomain = Arrays.stream(VALID_DOMAIN).filter(it -> it.equals(emailDomain)).count() == 1;
+		if (!isValidDomain) {
+            throw new SpeakerDoesntMeetRequirementsException("Speaker doesn't meet our standard rules.");
+        }
+	}
 
     int getFee(int exp) {
         int fee = 0;
