@@ -5,7 +5,7 @@ public class Checkout {
         int netPrice = PriceCalculator.get(basket);
         basket.setNetPrice(netPrice);
 
-        int discount = DiscountCalculator.get(basket);
+        int discount = DiscountCalculator.get(basket, netPrice);
         basket.setDiscount(discount);
         // TODO
     }

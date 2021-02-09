@@ -11,9 +11,7 @@ public class PriceCalculator {
     	Map<String, BookOrder> bookOrdersMapByBookName = basket.getBookOrdersMapByBookName();
         for (Map.Entry<String, BookOrder> entry : bookOrdersMapByBookName.entrySet()) {
     		BookOrder bookOrder = entry.getValue();
-    		int bookPrice = bookOrder.getBook().getPrice();
-    		int quantity = bookOrder.getQuantity();
-    		int orderPrice = bookPrice * quantity;
+    		int orderPrice = bookOrder.getPrice();
     		netPrice += orderPrice;
         }
     	

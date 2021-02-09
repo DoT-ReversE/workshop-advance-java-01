@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class DiscountCalculator {
 	
-    public static int get(Basket basket) {
+    public static int get(Basket basket, int netPrice) {
     	int discount = 0;
     	
     	Map<String, BookOrder> bookOrdersMapByBookName = basket.getBookOrdersMapByBookName();
@@ -26,8 +26,6 @@ public class DiscountCalculator {
 				discountPercent = promotion.getDiscountPercent();
 			}
 		}
-    	
-    	int netPrice = basket.getNetPrice();
     	
     	discount = (netPrice * discountPercent) / 100;
     	
