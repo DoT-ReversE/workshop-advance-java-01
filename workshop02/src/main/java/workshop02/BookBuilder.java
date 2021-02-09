@@ -9,7 +9,7 @@ public class BookBuilder {
 
     public BookBuilder chooseBook(String name) {
         book.setName(name);
-        book.setPrice(8);
+        book.setPrice(800);
         return this;
     }
 

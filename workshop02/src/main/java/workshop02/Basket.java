@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Basket {
-    List<Book> books = new ArrayList<Book>();
+    private List<Book> books = new ArrayList<Book>();
     private int netPrice;
-    private int discountPrice;
+    private int discount;
 
     public void addBook(Book book) {
-        books.add(book);
+        getBooks().add(book);
     }
 
     public int getNetPrice() {
@@ -20,11 +20,23 @@ public class Basket {
         this.netPrice = netPrice;
     }
 
-    public int getDiscountPrice() {
-        return discountPrice;
+    public int getDiscount() {
+        return discount;
     }
 
-    public void setDiscountPrice(int discountPrice) {
-        this.discountPrice = discountPrice;
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
+    
+    public int getTotalPrice() {
+    	return this.netPrice - this.discount;
+    }
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
 }
